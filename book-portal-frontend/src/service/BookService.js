@@ -27,7 +27,7 @@ export const getBookById = (id) => {
 
   export const getFavoriteBooksByUserId = (id) => {
 
-    return axios.get("/book/read-list/id/" + id).then((response) => {
+    return axios.get("/book/favorite/id/" + id).then((response) => {
       return {
 
             books:response.data
@@ -36,7 +36,7 @@ export const getBookById = (id) => {
   };
 
   export const getReadBooksByUserId = (id) => {
-    return axios.get("/book/favorite/id/" + id).then((response) => {
+    return axios.get("/book/read-list/id/" + id).then((response) => {
       return {
             books:  response.data
       }

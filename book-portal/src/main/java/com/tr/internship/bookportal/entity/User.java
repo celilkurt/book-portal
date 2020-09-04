@@ -34,14 +34,14 @@ public class User extends EntityBase {
     @JsonManagedReference
     private Set<Role> roles;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "FAVORITE_BOOKS",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")})
     @JsonManagedReference
     private Set<Book> favorites;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @Column(name = "read_books")
     @JoinTable(name = "READ_BOOKS",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},

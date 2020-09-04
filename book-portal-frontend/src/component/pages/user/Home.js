@@ -16,33 +16,34 @@ export default class HomeContent extends Component {
     }
 
     /////////////////////KUllanıcı id'sini elde etmeliyiz.
-    async componentDidMount(){
-        const {pageSize,pageNumber} = this.state;
-        const resp = await getBooks(pageSize,pageNumber).then((resp) => {
+    componentDidMount(){
+       
+        this.getBooks();
+    }
 
-            return resp;
-        });
+    getBooks(){
 
-        this.setState({
-            books:resp.books,
-            totalElements:resp.totalElements
-        });
-                
+        const {pageSize, pageNumber} = this.state;
+        getBooks(pageSize,pageNumber).then((resp) => {
+            this.setState({
+                books:resp.books,
+                totalElements:resp.totalElements
+            });
+        })
+
     }
 
     nextPage(){
         const {pageSize,pageNumber,totalElements} = this.state;
         if(totalElements > (pageNumber+1)*pageSize ){
-            this.setState(prevstate => ({ pageNumber: prevstate.pageNumber + 1}));
-            this.componentDidMount();
+            this.setState(prevstate => ({ pageNumber: prevstate.pageNumber + 1}),() => this.getBooks());
         }
     }
 
     prePage(){
         const {pageNumber} = this.state;
         if(pageNumber > 0 ){
-            this.setState(prevstate => ({ pageNumber: prevstate.pageNumber - 1}));
-            this.componentDidMount();
+            this.setState(prevstate => ({ pageNumber: prevstate.pageNumber - 1}),() => this.getBooks());
         }
     }
       

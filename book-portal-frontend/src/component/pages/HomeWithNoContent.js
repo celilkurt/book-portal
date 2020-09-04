@@ -22,22 +22,20 @@ const { Header, Content, Footer, Sider } = Layout;
 
   constructor(props){
     super(props);
-    if(props.content === null){
-      props.content = "hello man"; 
-    }
+    this.setState({isLogged:isLogged()});
+
   }
 
-  async componentDidMount() {
 
-    const key = await isLogged();
-    this.setState({isLogged:key});
+  componentDidMount() {
 
+    this.setState({isLogged:isLogged()});
+    
   }  
 
-  logout() {
-    this.setState({isLogged:false});
-    logout();
-    this.props.history.push('/login');
+ logout() {
+     logout().then(() => this.props.history.push('/login'));
+    
   }
 
   

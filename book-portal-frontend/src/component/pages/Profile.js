@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import { addUser, updateUser, getUserById } from "../../service/UserService";
-import { getFavoriteBooksByUserId,getReadBooksByUserId } from "../../service/BookService";
+import { getFavoriteBooksByUserId,getReadBooksByUserId,deleteFavoriteBook,deleteReadBook } from "../../service/BookService";
 import 'antd/dist/antd.css';
 import {
   Form,
@@ -19,8 +19,8 @@ export default class Profile extends Component {
                     active: '',
                     role: ''
                 },
-                FavoriteBooksTable:null,
-                ReadBooksTable:null
+                favoriteBooks:[],
+                readListBooks:[]
         };
   
 
@@ -28,9 +28,25 @@ export default class Profile extends Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.favoriteRemove = this.favoriteRemove.bind(this);
+        this.readListRemove = this.readListRemove.bind(this);       
 
-        
+    }
 
+    async favoriteRemove(id) {
+      console.log("delete book for id: " + id);
+      deleteFavoriteBook(this.props.userId,id);
+      let updatedBooks = [...this.state.favoriteBooks].filter(i => i.id !== id);
+      this.setState({favoriteBooks: updatedBooks});
+      
+    }
+
+    async readListRemove(id) {
+      console.log("delete book for id: " + id);
+      deleteFavoriteBook(this.props.userId,id);
+      let updatedBooks = [...this.state.readListBooks].filter(i => i.id !== id);
+      this.setState({readListBooks: updatedBooks});
+      
     }
 
     async componentDidMount(){
@@ -49,14 +65,11 @@ export default class Profile extends Component {
           return resp.books;
         });
 
-        const FavoriteBooksTable = (<FavAndReadList books={favoriteBooks} 
-                        title="Favorite Book List" userId={sessionStorage.getItem('id')}/>);
-        const ReadBooksTable = (<FavAndReadList books={readListBooks} 
-                              title="Read Book List" userId={sessionStorage.getItem('id')}/>);
+        
 
         this.setState({
-          FavoriteBooksTable,
-          ReadBooksTable
+          favoriteBooks,
+          readListBooks
         });
       
     }
@@ -81,10 +94,14 @@ export default class Profile extends Component {
 
     render(){
 
-        const {user,FavoriteBooksTable,ReadBooksTable} = this.state;
+
+        const {user,favoriteBooks,readListBooks} = this.state;
         const title = <h2>{"Welcome " + user.username}</h2>;
         
-        
+        const FavoriteBooksTable = (<FavAndReadList books={favoriteBooks} 
+          title="Favorite Book List" userId={sessionStorage.getItem('id')} remove={this.favoriteRemove()}/>);
+const ReadBooksTable = (<FavAndReadList books={readListBooks} 
+                title="Read Book List" userId={sessionStorage.getItem('id')} remove={this.readListRemove()}/>);
 
         const content = (<>
           {title}

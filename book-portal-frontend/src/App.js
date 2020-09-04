@@ -21,10 +21,10 @@ class App extends Component {
     isLogged:false
   }
 
-  async componentDidMount(){
+  componentDidMount(){
 
-    const key = await isLogged();
-    this.setState({isLogged:key});
+    const key =  isLogged();
+    this.setState({isLogged:key},() => this.render());
   }
 
   render() {
@@ -40,12 +40,7 @@ class App extends Component {
           <Route path='/book-search/:key' exact={true} component={SearchBookPage}/>
           <Route path='/user-search/:key' exact={true} component={SearchUserPage}/>
 
-          {isLogged?(
             <Route path='/profile'  exact={true} component={Profile}/>
-          ):(
-            ""
-          )}
-
           <ProtectedRoute path='/admin'  exact={true} component={AdminHome}/>
           <ProtectedRoute path='/admin/user-edit' exact={true}  component={UserEdit}/>
           <ProtectedRoute path='/admin/user-list'  exact={true} component={UserList}/>

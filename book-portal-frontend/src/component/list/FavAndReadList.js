@@ -28,17 +28,11 @@ export default class FavAndReadList extends Component {
       console.log("title: " + this.state.title + "         " + this.state.books);
      }
 
-     async remove(id) {
-      console.log("delete book for id: " + id);
-      deleteFavoriteBook(this.props.userId,id);
-      let updatedBooks = [...this.state.books].filter(i => i.id !== id);
-      this.setState({books: updatedBooks});
-      
-    }
+     
 
 
     render() {
-         const {books,title,pagination} =this.state;
+         const {books,title,pagination,remove} =this.state;
         
       
       
@@ -64,7 +58,7 @@ export default class FavAndReadList extends Component {
               title:'Action',
               dataIndex: 'id',
               key: 'id',
-              render: (id) =><Button type="primary"  href="javascript:;" onClick={() => this.remove(id)} >deleteFavoriteBook</Button> ,
+              render: (id) =><Button type="primary"  href="javascript:;" onClick={() => remove(id)} >deleteFavoriteBook</Button> ,
             } 
           ];
 
