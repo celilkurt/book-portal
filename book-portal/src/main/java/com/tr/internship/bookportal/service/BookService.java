@@ -121,4 +121,37 @@ public class BookService  {
             return null;
     }
 
+    public Page<List<Book>> getAllBySearchKeys(Book book, int pageSize, int pageNumber) {
+
+        Pageable paged = PageRequest.of(pageNumber, pageSize);
+        Page<List<Book>> respBooks = null;
+        if(book.getAuthor() != null && book.getBookName() != null && book.getCategory() != null){
+            respBooks =  getAllByAny(book.getBookName(),paged);
+        }else if(book.getBookName() != null){
+            respBooks =  getAllByBookname(book.getBookName(),paged);
+        }else if(book.getCategory() != null){
+            respBooks = getAllByCategory(book.getCategory(),paged);
+        }else if(book.getAuthor() != null){
+            respBooks = getAllByAuthor(book.getAuthor(),paged);
+        }
+
+        return respBooks;
+    }
+
+    public Page<List<Book>> getAllByAny(String key, Pageable paged) {
+        return bookRepository.findAllByAuthorContainsOrAuthorContainingIgnoreCaseAndBookNameContainsOrBookNameContainingIgnoreCaseAndCategoryContainingOrCategoryContainsIgnoreCase(key,key,key,key,key,key,paged);
+    }
+
+    public Page<List<Book>> getAllByBookname(String key, Pageable paged) {
+        return bookRepository.findAllByBookNameContainsOrBookNameContainingIgnoreCase(key,key,paged);
+    }
+
+    public Page<List<Book>> getAllByAuthor(String key, Pageable paged) {
+        return bookRepository.findAllByAuthorContainsOrAuthorContainingIgnoreCase(key,key,paged);
+    }
+
+    public Page<List<Book>> getAllByCategory(String key, Pageable paged) {
+        return bookRepository.findAllByCategoryContainingOrCategoryContainsIgnoreCase(key,key,paged);
+    }
+
 }

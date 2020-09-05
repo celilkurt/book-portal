@@ -5,7 +5,6 @@ import com.tr.internship.bookportal.entity.Book;
 import com.tr.internship.bookportal.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/api/books")
 public class BookController {
 
     @Autowired
@@ -126,6 +125,15 @@ public class BookController {
         else
             throw new IllegalArgumentException("Parametre geçersiz.");
     }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<?>  getAllByKey(@RequestBody Book book, @RequestParam(name="pageSize", defaultValue = "10") int pageSize,
+                                                            @RequestParam(name="pageNumber", defaultValue = "0") int pageNumber){
+
+        return ResponseEntity.ok(bookService.getAllBySearchKeys(book,pageSize,pageNumber));
+    }
+
 
 
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getBooks = (pageSize, pageNumber) => {
   const params = "?pageSize=" + pageSize + "&pageNumber=" + pageNumber;
-  return axios.get("/book" + params).then((response) => {
+  return axios.get("/api/books" + params).then((response) => {
     
     return {
           books:  response.data.content,
@@ -15,7 +15,7 @@ export const getBooks = (pageSize, pageNumber) => {
 };
 
 export const getBookById = (id) => {
-    return axios.get("/book/id/" + id).then((response) => {
+    return axios.get("/api/books/id/" + id).then((response) => {
       return {
         id: response.data.id,
         bookName: response.data.bookName,
@@ -27,7 +27,7 @@ export const getBookById = (id) => {
 
   export const getFavoriteBooksByUserId = (id) => {
 
-    return axios.get("/book/favorite/id/" + id).then((response) => {
+    return axios.get("/api/books/favorite/id/" + id).then((response) => {
       return {
 
             books:response.data
@@ -36,7 +36,7 @@ export const getBookById = (id) => {
   };
 
   export const getReadBooksByUserId = (id) => {
-    return axios.get("/book/read-list/id/" + id).then((response) => {
+    return axios.get("/api/books/read-list/id/" + id).then((response) => {
       return {
             books:  response.data
       }
@@ -44,13 +44,13 @@ export const getBookById = (id) => {
   };
 
   export const addBook = (book) => {
-    return axios.post("/book", book).then((response) => {
+    return axios.post("/api/books", book).then((response) => {
       return response.data;
     });
   };
 
   export const updateBook = (book) => {
-    return axios.put("/book", book).then((response) => {
+    return axios.put("/api/books", book).then((response) => {
       return response.data;
     });
   };
@@ -58,25 +58,25 @@ export const getBookById = (id) => {
   export const addFavoriteBook = (userId,bookId) => {
 
     const params = "?userId=" + userId + "&bookId=" + bookId;
-    return axios.post("/book/favorite" + params );
+    return axios.post("/api/books/favorite" + params );
 
   };
 
 
   export const addReadBook = (userId,bookId) => {
     const params = "?userId=" + userId + "&bookId=" + bookId;
-    return axios.post("/book/read-list" + params);
+    return axios.post("/api/books/read-list" + params);
 
   };
 
   export const deleteBook = (id) => {
-    return axios.delete("/book/id/" + id).then((response) => {
+    return axios.delete("/api/books/id/" + id).then((response) => {
       return response;
     });
   };
 
   export const deleteFavoriteBook = (userId,bookId) => {
-    return axios.delete("/book/favorite" ,{
+    return axios.delete("/api/books/favorite" ,{
         params: {
             userId:userId,
             bookId:bookId
@@ -87,7 +87,7 @@ export const getBookById = (id) => {
   };
 
   export const deleteReadBook = (userId,bookId) => {
-    return axios.delete("/book/read-list" ,{
+    return axios.delete("/api/books/read-list" ,{
         params: {
             userId:userId,
             bookId:bookId

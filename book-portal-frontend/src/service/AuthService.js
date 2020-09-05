@@ -8,9 +8,13 @@ export const login = (user) => {
     const auth =  "username=" + user.username + "&password=" + user.password;
 
     return axios.post("/login", (auth)).then((response) => {
-
-         return axios.get("/user/username/" + user.username).then(resp => {
-              
+        console.log("Login response: " + response);
+         return axios.get("/api/users/get" ,{
+             username:user.username,
+             id:2,
+             password:null
+         }).then(resp => {
+              console.log(resp);
             return { 
                     id: resp.data.id,
                     role: resp.data.roles[0].name

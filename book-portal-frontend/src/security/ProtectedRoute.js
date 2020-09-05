@@ -1,22 +1,19 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import {isAdmin} from '../service/AuthService';
 import HomeWithNoContent from '../../src/component/pages/HomeWithNoContent';
 
 
 export const ProtectedRoute = (props) => {
     
         const Component = props.component;
-        const key  = isAdmin();
+        const key  =props.checkFunc();
         console.log("key: " + key);
 
-        return key ? (
-             <Component />
-        ) : (
-           //<Redirect to={{ pathname: '/login' }} />
-           <HomeWithNoContent content = {<img src={require('../img/403.png')} />}/>
-        );
-    
+        if(key){
+                return <Component/>;
+        }else{
+                return <HomeWithNoContent content = {<img src={require('../img/403.png')} />}/>;
+        }
+        
 }
 
 

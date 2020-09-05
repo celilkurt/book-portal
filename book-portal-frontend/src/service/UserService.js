@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getUsers = (pageSize,pageNumber) => {
       const params = "?pageSize=" + pageSize + "&pageNumber=" + pageNumber;
-      return axios.get("/user" + params).then((response) => {
+      return axios.get("/api/users" + params).then((response) => {
         
         return {
           users:  response.data.content,
@@ -17,7 +17,7 @@ export const getUsers = (pageSize,pageNumber) => {
 };
 
 export const getUserById = (id) => {
-  return axios.get("/user/id/" + id).then((response) => {
+  return axios.get("/api/users/get" ,{id:id}).then((response) => {
     return {
       id: response.data.id,
       username: response.data.username,
@@ -29,7 +29,7 @@ export const getUserById = (id) => {
 };
 
 export const getUserByUsername = (username) => {
-  return axios.get("/user/username/" + username).then((response) => {
+  return axios.get("/api/users/username/" + username).then((response) => {
     return {
       id: response.data.id,
       username: response.data.username,
@@ -41,20 +41,20 @@ export const getUserByUsername = (username) => {
 };
 
 export const addUser = (user) => {
-  return axios.post("/user", user).then((response) => {
+  return axios.post("/api/users", user).then((response) => {
     return response.data;
   });
 };
 
 export const updateUser = (user) => {
-  return axios.put("/user", user).then((response) => {
+  return axios.put("/api/users", user).then((response) => {
     return response.data;
   });
 };
 
 
 export const deleteUser = (id) => {
-  return axios.delete("/user/id/" + id).then((response) => {
+  return axios.delete("/api/users/id/" + id).then((response) => {
     return response;
   });
 };

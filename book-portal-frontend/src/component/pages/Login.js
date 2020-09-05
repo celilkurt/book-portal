@@ -35,12 +35,9 @@ export default class Login extends Component {
           sessionStorage.setItem("role",response.role);
           console.log("Login successful");
           //Alert giriş başarılı
-          if(isAdmin()){
-            this.props.history.push('/admin');
-          }else{
-            this.props.history.push('/');
-          }
-        }).catch((response) => {
+          
+            
+        },this.props.history.push('/')).catch((response) => {
           sessionStorage.setItem('isLogged',false);
           //alert giriş başarısız.
         });

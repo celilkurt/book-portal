@@ -14,7 +14,7 @@ public interface BookRepository extends JpaRepository<Book,Long> {
     Page<List<Book>> findAllByAuthorContainsOrAuthorContainingIgnoreCase(String author,String author2,Pageable paged);
     Page<List<Book>> findAllByBookNameContainsOrBookNameContainingIgnoreCase (String bookname,String bookname2,Pageable paged);
     Page<List<Book>> findAllByCategoryContainingOrCategoryContainsIgnoreCase(String category,String category2,Pageable paged);
-    Page<List<Book>> findAllByAuthorContainsOrAuthorContainingIgnoreCaseOrBookNameContainsOrBookNameContainingIgnoreCaseOrCategoryContainingOrCategoryContainsIgnoreCase (
+    Page<List<Book>> findAllByAuthorContainsOrAuthorContainingIgnoreCaseAndBookNameContainsOrBookNameContainingIgnoreCaseAndCategoryContainingOrCategoryContainsIgnoreCase (
             String key,String key2,String key3,String key4,String key5,String key6,Pageable paged);
 
 }

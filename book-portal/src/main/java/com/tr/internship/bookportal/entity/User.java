@@ -7,8 +7,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Set;
 
 
@@ -42,7 +40,6 @@ public class User extends EntityBase {
     private Set<Book> favorites;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @Column(name = "read_books")
     @JoinTable(name = "READ_BOOKS",
             joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "BOOK_ID", referencedColumnName = "ID")})

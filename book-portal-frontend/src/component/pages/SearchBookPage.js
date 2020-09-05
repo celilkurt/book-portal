@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {SearchForm} from '../form/SearchForm';
-import {getBooksByAny,getBooksByAuthor,getBooksByCategory,getBooksByBookname} from '../../service/BookSearchService';
+import {getBooksBySearchKey} from '../../service/BookSearchService';
 import {deleteBook} from '../../service/BookService';
 import { Button} from 'antd';
 import {LeftCircleFilled,RightCircleFilled} from '@ant-design/icons';
@@ -51,7 +51,6 @@ import { withRouter} from 'react-router-dom';
         this.setState({curSearchKey:values.key});
         
         const {pageSize,pageNumber,searchType} = this.state;
-        
         await this.getBooks(pageSize,pageNumber,searchType,values.key);
         
     };
@@ -59,22 +58,34 @@ import { withRouter} from 'react-router-dom';
     async getBooks(pageSize,pageNumber,searchType,key){
 
         let response = null;
+        let book = {
+          bookName:null,
+          author:null,
+          category:null
+        };
+
         switch(searchType) {
             case 'any':
-              response = await getBooksByAny(key,pageSize,pageNumber);
+              book.bookName = key;
+              book.author = key;
+              book.category = key;
               break;
             case 'category':
-                response = await getBooksByCategory(key,pageSize,pageNumber);
+                book.category = key;
               break;
             case 'author':
-                response = await getBooksByAuthor(key,pageSize,pageNumber);
+              book.author = key;
               break;
             case 'bookname':
-                response = await getBooksByBookname(key,pageSize,pageNumber);
+              book.bookName = key;
               break;
             default:
-                response = await getBooksByAny(key,pageSize,pageNumber);
+              book.bookName = key;
+              book.author = key;
+              book.category = key;
           }
+
+          response = await getBooksBySearchKey(book,pageSize,pageNumber);
 
             this.setState({
                 books:response.books,

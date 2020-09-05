@@ -18,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,9 +50,17 @@ public class UserService implements  UserDetailsService {
 
 
 
-    public Optional<User> getById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUser(UserDTO userDTO) {
 
+        Optional<User> user = null;
+
+        if(userDTO.getId() != null ){
+            user = userRepository.findById(userDTO.getId());
+        }else if(userDTO.getUsername() != null){
+            user = userRepository.findByUsername(userDTO.getUsername());
+        }
+
+        return user;
     }
 
 
@@ -95,16 +104,6 @@ public class UserService implements  UserDetailsService {
         }
     }
 
-    public User getByUsername(String username){
-
-        Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent())
-            return user.get();
-        else
-            throw new UsernameNotFoundException("Kullanıcı bulunamadı");
-
-    }
-
     public String getRoleByUsername(String username){
 
         Optional<User> user = userRepository.findByUsername(username);
@@ -124,4 +123,26 @@ public class UserService implements  UserDetailsService {
         }
         throw new UsernameNotFoundException("Kullanıcı bulunamadı");
     }
+
+    public Page<List<User>> getAllByUsername(String key, int pageSize, int pageNumber) {
+        Pageable paged = PageRequest.of(pageNumber, pageSize);
+        return userRepository.findAllByUsernameContainingOrUsernameContainsIgnoreCase (key,key,paged);
+    }
+
+    public List<User> getAllByRole(String key, int pageSize, int pageNumber) {
+
+        List<User> users = userRepository.findAll();
+        List<User> responseList = new ArrayList<>();
+        for(User user:users){
+            String role = user.getRoles().iterator().next().getName();
+            if(role.equalsIgnoreCase(key) || role.matches(key))
+                responseList.add(user);
+            if(responseList.size() == pageSize)
+                break;
+        }
+
+        return responseList;
+    }
+
+
 }
